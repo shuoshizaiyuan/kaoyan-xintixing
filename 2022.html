@@ -66,6 +66,7 @@ w:not(.known).flash{animation:flashbg2 1.3s ease}
 .pick button.on{background:#1d4ed8;color:#fff;border-color:#1d4ed8;font-weight:700}
 .pick button.right{background:#dcfce7;border-color:#16a34a;color:#15803d;font-weight:700}
 .pick button.wrong{background:#fee2e2;border-color:#dc2626;color:#b91c1c;font-weight:700}
+.pick button.ans{background:#f0fdf4;border-style:dashed;border-color:#86efac;color:#15803d;font-weight:700}
 .opt{margin:2px 0;font-size:16px}
 .opt b{color:#1d4ed8;margin-right:4px;font-family:Georgia,serif}
 .endbar{text-align:center;margin:26px 0}
@@ -787,11 +788,13 @@ function renderPicks(graded){
     if(!box) return;
     Array.prototype.forEach.call(box.querySelectorAll('button'), function(b){
       var L = b.getAttribute('data-l');
-      b.className = (picks[q] === L ? 'on' : '');
-      if(graded){
-        if(L === KEY[q]) b.className = 'right';
-        else if(picks[q] === L) b.className = 'wrong';
+      var chosen = picks[q] === L;
+      if(!graded){
+        b.className = chosen ? 'on' : '';
+        return;
       }
+      if(L === KEY[q]){ b.className = chosen ? 'right' : 'ans'; }
+      else { b.className = chosen ? 'wrong' : ''; }
     });
   });
 }
